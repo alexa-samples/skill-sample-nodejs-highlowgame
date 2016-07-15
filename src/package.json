@@ -1,0 +1,27 @@
+{
+  "name": "skill-sample-nodejs-highlowgame",
+  "version": "1.0.0",
+  "description": "High-low number guessing game for Alexa",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alexa/skill-sample-nodejs-highlowgame.git"
+  },
+  "keywords": [
+    "Alexa",
+    "game",
+    "skill"
+  ],
+  "author": "Amazon.com",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/alexa/skill-sample-nodejs-highlowgame/issues"
+  },
+  "homepage": "https://github.com/alexa/skill-sample-nodejs-highlowgame#readme",
+  "dependencies": {
+    "alexa-sdk": "^1.0.0"
+  }
+}
