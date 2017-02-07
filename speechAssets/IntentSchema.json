@@ -1,25 +1,9 @@
-{
-  "intents": [
-    {
-      "intent": "NumberGuessIntent",
-      "slots": [
-        {
-          "name": "number",
-          "type": "AMAZON.NUMBER"
-        }
-      ]
-    },
-    {
-      "intent": "AMAZON.YesIntent",
-      "slots": []
-    },
-    {
-      "intent": "AMAZON.NoIntent",
-      "slots": []
-    },
-    {
-      "intent": "AMAZON.HelpIntent",
-      "slots": []
-    }
+{"intents": [
+    {"intent": "NumberGuessIntent", "slots": [{"name": "number", "type": "AMAZON.NUMBER"}]},
+    {"intent": "AMAZON.YesIntent"},
+    {"intent": "AMAZON.NoIntent"},
+    {"intent": "AMAZON.HelpIntent"},
+    {"intent": "AMAZON.StopIntent"},
+    {"intent": "AMAZON.CancelIntent"}
   ]
 }

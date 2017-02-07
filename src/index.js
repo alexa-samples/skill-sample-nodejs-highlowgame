@@ -25,6 +25,17 @@ var newSessionHandlers = {
         this.emit(':ask', 'Welcome to High Low guessing game. You have played '
             + this.attributes['gamesPlayed'].toString() + ' times. would you like to play?',
             'Say yes to start the game or no to quit.');
+    },
+    "AMAZON.StopIntent": function() {
+      this.emit(':tell', "Goodbye!");  
+    },
+    "AMAZON.CancelIntent": function() {
+      this.emit(':tell', "Goodbye!");  
+    },
+    'SessionEndedRequest': function () {
+        console.log('session ended!');
+        //this.attributes['endedSessionCount'] += 1;
+        this.emit(":tell", "Goodbye!");
     }
 };
 
@@ -43,14 +54,24 @@ var startGameHandlers = Alexa.CreateStateHandler(states.STARTMODE, {
         this.emit(':ask', 'Great! ' + 'Try saying a number to start the game.', 'Try saying a number.');
     },
     'AMAZON.NoIntent': function() {
+        console.log("NOINTENT");
         this.emit(':tell', 'Ok, see you next time!');
     },
+    "AMAZON.StopIntent": function() {
+      console.log("STOPINTENT");
+      this.emit(':tell', "Goodbye!");  
+    },
+    "AMAZON.CancelIntent": function() {
+      console.log("CANCELINTENT");
+      this.emit(':tell', "Goodbye!");  
+    },
     'SessionEndedRequest': function () {
-        console.log('session ended!');
-        this.attributes['endedSessionCount'] += 1;
-        this.emit(':saveState', true);
+        console.log("SESSIONENDEDREQUEST");
+        //this.attributes['endedSessionCount'] += 1;
+        this.emit(':tell', "Goodbye!");
     },
     'Unhandled': function() {
+        console.log("UNHANDLED");
         var message = 'Say yes to continue, or no to end the game.';
         this.emit(':ask', message, message);
     }
@@ -84,12 +105,20 @@ var guessModeHandlers = Alexa.CreateStateHandler(states.GUESSMODE, {
         this.emit(':ask', 'I am thinking of a number between zero and one hundred, try to guess and I will tell you' +
             ' if it is higher or lower.', 'Try saying a number.');
     },
+    "AMAZON.StopIntent": function() {
+        console.log("STOPINTENT");
+      this.emit(':tell', "Goodbye!");  
+    },
+    "AMAZON.CancelIntent": function() {
+        console.log("CANCELINTENT");
+    },
     'SessionEndedRequest': function () {
-        console.log('session ended!');
+        console.log("SESSIONENDEDREQUEST");
         this.attributes['endedSessionCount'] += 1;
-        this.emit(':saveState', true);
+        this.emit(':tell', "Goodbye!");
     },
     'Unhandled': function() {
+        console.log("UNHANDLED");
         this.emit(':ask', 'Sorry, I didn\'t get that. Try saying a number.', 'Try saying a number.');
     }
 });
