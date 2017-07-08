@@ -4,7 +4,7 @@ var appId = ''; //'amzn1.echo-sdk-ams.app.your-skill-id';
 
 exports.handler = function(event, context, callback) {
     var alexa = Alexa.handler(event, context);
-    alexa.appId = appId;
+    alexa.APP_ID = appId;
     alexa.dynamoDBTableName = 'highLowGuessUsers';
     alexa.registerHandlers(newSessionHandlers, guessModeHandlers, startGameHandlers, guessAttemptHandlers);
     alexa.execute();
