@@ -22,20 +22,24 @@ var newSessionHandlers = {
             this.attributes['gamesPlayed'] = 0;
         }
         this.handler.state = states.STARTMODE;
-        this.emit(':ask', 'Welcome to High Low guessing game. You have played '
-            + this.attributes['gamesPlayed'].toString() + ' times. would you like to play?',
-            'Say yes to start the game or no to quit.');
+        this.response.speak('Welcome to High Low guessing game. You have played '
+            + this.attributes['gamesPlayed'].toString() + ' times. would you like to play?')
+            .listen('Say yes to start the game or no to quit.');
+        this.emit(':responseReady');  
     },
     "AMAZON.StopIntent": function() {
-      this.emit(':tell', "Goodbye!");  
+      this.response.speak("Goodbye!");  
+      this.emit(':responseReady');
     },
     "AMAZON.CancelIntent": function() {
-      this.emit(':tell', "Goodbye!");  
+        this.response.speak("Goodbye!");  
+        this.emit(':responseReady');  
     },
     'SessionEndedRequest': function () {
         console.log('session ended!');
         //this.attributes['endedSessionCount'] += 1;
-        this.emit(":tell", "Goodbye!");
+        this.response.speak("Goodbye!");  
+        this.emit(':responseReady');
     }
 };
 
@@ -46,34 +50,41 @@ var startGameHandlers = Alexa.CreateStateHandler(states.STARTMODE, {
     'AMAZON.HelpIntent': function() {
         var message = 'I will think of a number between zero and one hundred, try to guess and I will tell you if it' +
             ' is higher or lower. Do you want to start the game?';
-        this.emit(':ask', message, message);
+        this.response.speak(message).listen(message);
+        this.emit(':responseReady');        
     },
     'AMAZON.YesIntent': function() {
         this.attributes["guessNumber"] = Math.floor(Math.random() * 100);
         this.handler.state = states.GUESSMODE;
-        this.emit(':ask', 'Great! ' + 'Try saying a number to start the game.', 'Try saying a number.');
+        this.response.speak('Great! ' + 'Try saying a number to start the game.').listen('Try saying a number.');
+        this.emit(':responseReady');        
     },
     'AMAZON.NoIntent': function() {
         console.log("NOINTENT");
-        this.emit(':tell', 'Ok, see you next time!');
+        this.response.speak('Ok, see you next time!');
+        this.emit(':responseReady');        
     },
     "AMAZON.StopIntent": function() {
       console.log("STOPINTENT");
-      this.emit(':tell', "Goodbye!");  
+      this.response.speak("Goodbye!");  
+      this.emit(':responseReady');  
     },
     "AMAZON.CancelIntent": function() {
       console.log("CANCELINTENT");
-      this.emit(':tell', "Goodbye!");  
+      this.response.speak("Goodbye!");  
+      this.emit(':responseReady');  
     },
     'SessionEndedRequest': function () {
         console.log("SESSIONENDEDREQUEST");
         //this.attributes['endedSessionCount'] += 1;
-        this.emit(':tell', "Goodbye!");
+        this.response.speak("Goodbye!");  
+        this.emit(':responseReady');
     },
     'Unhandled': function() {
         console.log("UNHANDLED");
         var message = 'Say yes to continue, or no to end the game.';
-        this.emit(':ask', message, message);
+        this.response.speak(message).listen(message);
+        this.emit(':responseReady');        
     }
 });
 
@@ -94,20 +105,24 @@ var guessModeHandlers = Alexa.CreateStateHandler(states.GUESSMODE, {
         } else if (guessNum === targetNum){
             // With a callback, use the arrow function to preserve the correct 'this' context
             this.emit('JustRight', () => {
-                this.emit(':ask', guessNum.toString() + 'is correct! Would you like to play a new game?',
-                'Say yes to start a new game, or no to end the game.');
+                this.response.speak(guessNum.toString() + 'is correct! Would you like to play a new game?')
+                .listen('Say yes to start a new game, or no to end the game.');
+                this.emit(':responseReady');                
         })
         } else {
             this.emit('NotANum');
         }
     },
     'AMAZON.HelpIntent': function() {
-        this.emit(':ask', 'I am thinking of a number between zero and one hundred, try to guess and I will tell you' +
-            ' if it is higher or lower.', 'Try saying a number.');
+        this.response.speak('I am thinking of a number between zero and one hundred, try to guess and I will tell you' +
+            ' if it is higher or lower.')
+            .listen('Try saying a number.');
+        this.emit(':responseReady');            
     },
     "AMAZON.StopIntent": function() {
         console.log("STOPINTENT");
-      this.emit(':tell', "Goodbye!");  
+      this.response.speak("Goodbye!"); 
+      this.emit(':responseReady');      
     },
     "AMAZON.CancelIntent": function() {
         console.log("CANCELINTENT");
@@ -115,21 +130,28 @@ var guessModeHandlers = Alexa.CreateStateHandler(states.GUESSMODE, {
     'SessionEndedRequest': function () {
         console.log("SESSIONENDEDREQUEST");
         this.attributes['endedSessionCount'] += 1;
-        this.emit(':tell', "Goodbye!");
+        this.response.speak("Goodbye!");
+        this.emit(':responseReady');        
     },
     'Unhandled': function() {
         console.log("UNHANDLED");
-        this.emit(':ask', 'Sorry, I didn\'t get that. Try saying a number.', 'Try saying a number.');
+        this.response.speak('Sorry, I didn\'t get that. Try saying a number.')
+        .listen('Try saying a number.');
+        this.emit(':responseReady');        
     }
 });
 
 // These handlers are not bound to a state
 var guessAttemptHandlers = {
     'TooHigh': function(val) {
-        this.emit(':ask', val.toString() + ' is too high.', 'Try saying a smaller number.');
+        this.response.speak(val.toString() + ' is too high.')
+        .listen('Try saying a smaller number.');
+        this.emit(':responseReady');
     },
     'TooLow': function(val) {
-        this.emit(':ask', val.toString() + ' is too low.', 'Try saying a larger number.');
+        this.response.speak(val.toString() + ' is too low.')
+        .listen('Try saying a larger number.');
+        this.emit(':responseReady');        
     },
     'JustRight': function(callback) {
         this.handler.state = states.STARTMODE;
@@ -137,6 +159,8 @@ var guessAttemptHandlers = {
         callback();
     },
     'NotANum': function() {
-        this.emit(':ask', 'Sorry, I didn\'t get that. Try saying a number.', 'Try saying a number.');
+        this.response.speak('Sorry, I didn\'t get that. Try saying a number.')
+        .listen('Try saying a number.');
+        this.emit(':responseReady');        
     }
 };
