@@ -54,7 +54,7 @@ var startGameHandlers = Alexa.CreateStateHandler(states.STARTMODE, {
         this.emit(':responseReady');        
     },
     'AMAZON.YesIntent': function() {
-        this.attributes["guessNumber"] = Math.floor(Math.random() * 100);
+        this.attributes["guessNumber"] = Math.floor(Math.random() * 101);
         this.handler.state = states.GUESSMODE;
         this.response.speak('Great! ' + 'Try saying a number to start the game.').listen('Try saying a number.');
         this.emit(':responseReady');        
