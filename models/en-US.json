@@ -1,0 +1,41 @@
+{
+  "interactionModel": {
+    "languageModel": {
+      "invocationName": "stanford calendar",
+        "intents": [
+        {
+          "name": "AMAZON.CancelIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.HelpIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.StopIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.YesIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.NoIntent",
+          "samples": []
+        },
+        {
+          "name": "NumberGuessIntent",
+          "samples": [
+            "{number}",
+            "is it {number}",
+            "how about {number}",
+            "could be {number}"
+          ],
+          "slots": [{
+              "name": "number", "type": "AMAZON.NUMBER"
+              }]
+        }
+      ]
+    }
+  }
+}  
