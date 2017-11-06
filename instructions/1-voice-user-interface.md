@@ -47,11 +47,11 @@ There are two parts to an Alexa skill.  The first part is the [Voice User Interf
 
 6.  **Click the Next button to move to the Interaction Model.**
 
-        <img src="https://m.media-amazon.com/images/G/01/mobile-apps/dex/alexa/alexa-skills-kit/tutorials/general/1-6-next-button._TTH_.png" />
+    <img src="https://m.media-amazon.com/images/G/01/mobile-apps/dex/alexa/alexa-skills-kit/tutorials/general/1-6-next-button._TTH_.png" />
 
 7.  Click on the **Launch Skill Builder** (Beta) button . This will launch the new Skill Builder Dashboard.
 
-        ![Launch Skill Builder](https://m.media-amazon.com/images/G/01/mobile-apps/dex/alexa/alexa-skills-kit/tutorials/general/1-7-skill-builder-launch._TTH_.png)
+    ![Launch Skill Builder](https://m.media-amazon.com/images/G/01/mobile-apps/dex/alexa/alexa-skills-kit/tutorials/general/1-7-skill-builder-launch._TTH_.png)
 
 8.  Click on the "Code Editor" item under **Dashboard** on the top left side of the skill builder.
 
@@ -78,8 +78,8 @@ There are two parts to an Alexa skill.  The first part is the [Voice User Interf
 
     If you get an error from your interaction model, check through this list:
 
-    *  **Did you copy and paste the provided code into the appropriate boxes?**
-    *  **Did you accidentally add any unwanted characters to the Interaction Model or Sample Utterances?**
+  *  **Did you copy and paste the provided code into the appropriate boxes?**
+  *  **Did you accidentally add any unwanted characters to the Interaction Model or Sample Utterances?**
 
 <br/><br/>
 [![Next: Lambda Function](https://m.media-amazon.com/images/G/01/mobile-apps/dex/alexa/alexa-skills-kit/tutorials/general/buttons/button_next_lambda_function._TTH_.png)](./2-lambda-function.md)
