@@ -1,7 +1,7 @@
 {
   "interactionModel": {
     "languageModel": {
-      "invocationName": "stanford calendar",
+      "invocationName": "high low game",
         "intents": [
         {
           "name": "AMAZON.CancelIntent",
@@ -38,4 +38,4 @@
       ]
     }
   }
-}  
+}
