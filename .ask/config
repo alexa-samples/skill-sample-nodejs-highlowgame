@@ -1,0 +1,19 @@
+{
+  "deploy_settings": {
+    "default": {
+      "skill_id": "",
+      "was_cloned": true,
+      "merge": {
+        "skillManifest": {
+          "apis": {
+            "custom": {
+              "endpoint": {
+                "uri": "ask-custom-highlow-default"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,9 +1,0 @@
-{"intents": [
-    {"intent": "NumberGuessIntent", "slots": [{"name": "number", "type": "AMAZON.NUMBER"}]},
-    {"intent": "AMAZON.YesIntent"},
-    {"intent": "AMAZON.NoIntent"},
-    {"intent": "AMAZON.HelpIntent"},
-    {"intent": "AMAZON.StopIntent"},
-    {"intent": "AMAZON.CancelIntent"}
-  ]
-}
