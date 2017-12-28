@@ -60,7 +60,7 @@ Alexa, open high low game
 	$ ask init
 	```
 
-3. Install npm dependencies by navigating into the `/lambda` directory and running the npm command: `npm install`
+3. Install npm dependencies by navigating into the `/lambda/custom` directory and running the npm command: `npm install`
 
 	```bash
 	$ cd lambda/custom
@@ -85,7 +85,7 @@ ASK CLI will create the skill and the lambda function for you. The Lambda functi
 2. Simulate verbal interaction with your skill through the command line using the following example:
 
 	```bash
-	 $ ask simulate -l en-US -t "alexa, start high low game"
+	 $ ask simulate -l en-US -t "start high low game"
 
 	 ✓ Simulation created for simulation id: 4a7a9ed8-94b2-40c0-b3bd-fb63d9887fa7
 	◡ Waiting for simulation response{
@@ -127,7 +127,7 @@ ASK CLI will create the skill and the lambda function for you. The Lambda functi
 * [Voice Design Guide](https://developer.amazon.com/designing-for-voice/) - A great resource for learning conversational and voice user interface design.
 * [CodeAcademy: Learn Alexa](https://www.codecademy.com/learn/learn-alexa) - Learn how to build an Alexa Skill from within your browser with this beginner friendly tutorial on CodeAcademy!
 
-###Documentation
+### Documentation
 * [Official Alexa Skills Kit Node.js SDK](https://www.npmjs.com/package/alexa-sdk) - The Official Node.js SDK Documentation
 *  [Official Alexa Skills Kit Documentation](https://developer.amazon.com/docs/ask-overviews/build-skills-with-the-alexa-skills-kit.html) - Official Alexa Skills Kit Documentation
 
