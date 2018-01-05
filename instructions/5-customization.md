@@ -5,13 +5,9 @@
 
 At this point, you should have a working copy of our High Low Game skill.  In order to make it your own, you will need to customize it with some responses that you create.  Here are the things you will need to change:
 
-1.  **Update your sample utterances.** There is some sample utterances for NumberGuessIntent.  You need to update this list of utterances to for a robust voice experience.
+1.  **Update your sample utterances.** There are some sample utterances for NumberGuessIntent.  You need to update this list of utterances to for a robust voice experience. **Remember that if you are creating this skill for another language other than English, your sample utterances need to be written in that language, not English.**
 
-        *  **Remember that if you are creating this skill for another language other than English, your sample utterances need to be written in that language, not English.
-
-    5.  **Click the "Save" button when you have completed.**
-
-        <img src="https://m.media-amazon.com/images/G/01/mobile-apps/dex/alexa/alexa-skills-kit/tutorials/highlowgame/5-2-5-save-button._TTH_.png" />
+  1. **Click the "Save" button when you have completed.**
 
 3.  **New sentences to respond to your users.** There are several sentences and responses that you will want to customize for your skill.
 
