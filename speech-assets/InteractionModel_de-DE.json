@@ -1,0 +1,50 @@
+{
+  "languageModel": {
+    "intents": [
+      {
+        "name": "AMAZON.CancelIntent",
+        "samples": []
+      },
+      {
+        "name": "AMAZON.HelpIntent",
+        "samples": []
+      },
+      {
+        "name": "AMAZON.NoIntent",
+        "samples": []
+      },
+      {
+        "name": "AMAZON.StopIntent",
+        "samples": []
+      },
+      {
+        "name": "AMAZON.YesIntent",
+        "samples": []
+      },
+      {
+        "name": "NumberGuessIntent",
+        "samples": [
+          "{number}",
+          "ist es {number}",
+          "was wäre mit {number}",
+          "könnte es {number} sein",
+          "die {number}",
+          "ist es die {number}",
+          "was wäre mit der {number}",
+          "könnte es die {number} sein",            
+          "die zahl {number}",
+          "ist es die zahl {number}",
+          "was wäre mit der zahl {number}",
+          "könnte es die zahl {number} sein"
+        ],
+        "slots": [
+          {
+            "name": "number",
+            "type": "AMAZON.NUMBER"
+          }
+        ]
+      }
+    ],
+    "invocationName": "größer kleiner spiel"
+  }
+}
