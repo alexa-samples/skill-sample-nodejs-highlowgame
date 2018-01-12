@@ -10,8 +10,18 @@
             "Alexa ask high low game is it {number}"
           ],
           "name": "High Low Game",
-          "description": "Guess a number, and Alexa will tell you if you need to guess higher or lower. SHe will also tell you how many times you habve played. "
-        }
+          "description": "Guess a number, and Alexa will tell you if you need to guess higher or lower. She will also tell you how many times you habve played."
+        },
+	    "de-DE": {
+          "summary": "Rate eine Zahl und Alexa sagt dir, ob du höher oder niedriger liegst.",
+          "examplePhrases": [
+            "Alexa öffne Größer-Kleiner-Spiel",
+            "Alexa starte Größer-Kleiner-Spiel",
+            "Alexa frage Größer-Kleiner-Spiel ist es {number}"
+          ],
+          "name": "Größer Kleiner Spiel",
+          "description": "Rate eine Zahl und Alexa sagt dir, ob du höher oder niedriger liegst. Sie sagt dir außerdem, wie oft du bereits gespielt hast."
+        }	
       },
       "isAvailableWorldwide": true,
       "testingInstructions": "Sample Testing Instructions.",
