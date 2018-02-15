@@ -32,7 +32,7 @@ There are two parts to an Alexa skill.  The first part is the [Voice User Interf
 
     *  **Name** This is the name of the skill as it will be displayed in the [Alexa app](http://alexa.amazon.com).
 
-    *  **Invocation Name** This is the name spoken by your users to start the skill. Use a name like "united states quiz" for this sample skill. Some common issues that developers experience with invocation names are listed in the following table. In addition, please review the [Invocation Name Requirements](https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/choosing-the-invocation-name-for-an-alexa-skill) as you consider an invocation name for your skill.
+    *  **Invocation Name** This is the name spoken by your users to start the skill. Use a name like "high low game" for this sample skill. Some common issues that developers experience with invocation names are listed in the following table. In addition, please review the [Invocation Name Requirements](https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/choosing-the-invocation-name-for-an-alexa-skill) as you consider an invocation name for your skill.
 
         | Invocation Name Requirements | Examples of incorrect invocation names |
         | ---------------------------- | -------------------------------------- |
@@ -76,7 +76,7 @@ There are two parts to an Alexa skill.  The first part is the [Voice User Interf
 
 13.  If your interaction model builds successfully, click on **Configuration button** to move on to Configuration.  In our next step of this guide, we will be creating our Lambda function in the AWS developer console, but keep this browser tab open, because we will be returning here on [Page #3: Connect VUI to Code](./3-connect-vui-to-code.md).
 
-    If you get an error from your interaction model, check through this list:
+  If you get an error from your interaction model, check through this list:
 
   *  **Did you copy and paste the provided code into the appropriate boxes?**
   *  **Did you accidentally add any unwanted characters to the Interaction Model or Sample Utterances?**

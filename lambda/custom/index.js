@@ -94,7 +94,7 @@ const guessModeHandlers = Alexa.CreateStateHandler(states.GUESSMODE, {
         this.emitWithState('NewSession'); // Equivalent to the Start Mode NewSession handler
     },
     'NumberGuessIntent': function() {
-        const guessNum = parseInt(this.event.request.intent.slots.number.value);
+        const guessNum = parseInt(this.event.request.intent.slots.number.value, 10);
         const targetNum = this.attributes["guessNumber"];
         console.log('user guessed: ' + guessNum);
 
@@ -108,7 +108,7 @@ const guessModeHandlers = Alexa.CreateStateHandler(states.GUESSMODE, {
                 this.response.speak(guessNum.toString() + 'is correct! Would you like to play a new game?')
                 .listen('Say yes to start a new game, or no to end the game.');
                 this.emit(':responseReady');
-        })
+        });
         } else {
             this.emit('NotANum');
         }
