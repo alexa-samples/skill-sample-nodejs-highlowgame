@@ -3,6 +3,9 @@
 /* eslint-disable  no-restricted-syntax */
 
 const Alexa = require('ask-sdk');
+const SKILL_NAME = 'High Low Game';
+const FALLBACK_MESSAGE = `The ${SKILL_NAME} skill can\'t help you with that.  It will come up with a number between 1 and 100 and you have to guess it by saying a number. What can I help you with?`;
+const FALLBACK_REPROMPT = 'What can I help you with?';
 
 const LaunchRequest = {
   canHandle(handlerInput) {
@@ -173,6 +176,23 @@ const ErrorHandler = {
   },
 };
 
+const FallbackHandler = {
+  // 2018-May-01: AMAZON.FallackIntent is only currently available in en-US locale.
+  //              This handler will not be triggered except in that locale, so it can be
+  //              safely deployed for any locale.
+  canHandle(handlerInput) {
+    const request = handlerInput.requestEnvelope.request;
+    return request.type === 'IntentRequest'
+      && request.intent.name === 'AMAZON.FallbackIntent';
+  },
+  handle(handlerInput) {
+    return handlerInput.responseBuilder
+      .speak(FALLBACK_MESSAGE)
+      .reprompt(FALLBACK_REPROMPT)
+      .getResponse();
+  },
+};
+
 const skillBuilder = Alexa.SkillBuilders.standard();
 
 exports.handler = skillBuilder
@@ -184,6 +204,7 @@ exports.handler = skillBuilder
     YesIntent,
     NoIntent,
     NumberGuessIntent,
+    FallbackHandler,
     UnhandledIntent,
   )
   .addErrorHandlers(ErrorHandler)
