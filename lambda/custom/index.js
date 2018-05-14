@@ -1,166 +1,192 @@
-'use strict';
-const Alexa = require("alexa-sdk");
-const appId = ''; //'amzn1.echo-sdk-ams.app.your-skill-id';
+/* eslint-disable  func-names */
+/* eslint-disable  no-console */
+/* eslint-disable  no-restricted-syntax */
 
-exports.handler = function(event, context, callback) {
-    const alexa = Alexa.handler(event, context);
-    alexa.appId = appId;
-    alexa.dynamoDBTableName = 'highLowGuessUsers';
-    alexa.registerHandlers(newSessionHandlers, guessModeHandlers, startGameHandlers, guessAttemptHandlers);
-    alexa.execute();
+const Alexa = require('ask-sdk');
+
+const LaunchRequest = {
+  canHandle(handlerInput) {
+    return handlerInput.requestEnvelope.session.new || handlerInput.requestEnvelope.request.type === 'LaunchRequest';
+  },
+  async handle(handlerInput) {
+    const { attributesManager, responseBuilder } = handlerInput;
+
+    const attributes = await attributesManager.getPersistentAttributes() || {};
+    if (Object.keys(attributes).length === 0) {
+      attributes.endedSessionCount = 0;
+      attributes.gamesPlayed = 0;
+    }
+
+    attributesManager.setSessionAttributes(attributes);
+    const speechOutput = `Welcome to High Low guessing game. You have played ${attributes.gamesPlayed.toString()} times. would you like to play?`;
+    const reprompt = 'Say yes to start the game or no to quit.';
+    return responseBuilder
+      .speak(speechOutput)
+      .reprompt(reprompt)
+      .getResponse();
+  },
 };
 
-const states = {
-    GUESSMODE: '_GUESSMODE', // User is trying to guess the number.
-    STARTMODE: '_STARTMODE'  // Prompt the user to start or restart the game.
+const ExitHandler = {
+  canHandle(handlerInput) {
+    const { request } = handlerInput.requestEnvelope;
+
+    return request.type === 'IntentRequest'
+      && (request.intent.name === 'AMAZON.CancelIntent'
+        || request.intent.name === 'AMAZON.StopIntent');
+  },
+  handle(handlerInput) {
+    return handlerInput.responseBuilder
+      .speak('Goodbye!')
+      .getResponse();
+  },
 };
 
-const newSessionHandlers = {
-    'NewSession': function() {
-        if(Object.keys(this.attributes).length === 0) {
-            this.attributes['endedSessionCount'] = 0;
-            this.attributes['gamesPlayed'] = 0;
-        }
-        this.handler.state = states.STARTMODE;
-        this.response.speak('Welcome to High Low guessing game. You have played '
-            + this.attributes['gamesPlayed'].toString() + ' times. would you like to play?')
-            .listen('Say yes to start the game or no to quit.');
-        this.emit(':responseReady');
-    },
-    "AMAZON.StopIntent": function() {
-      this.response.speak("Goodbye!");
-      this.emit(':responseReady');
-    },
-    "AMAZON.CancelIntent": function() {
-        this.response.speak("Goodbye!");
-        this.emit(':responseReady');
-    },
-    'SessionEndedRequest': function () {
-        console.log('session ended!');
-        //this.attributes['endedSessionCount'] += 1;
-        this.response.speak("Goodbye!");
-        this.emit(':responseReady');
-    }
+const SessionEndedRequest = {
+  canHandle(handlerInput) {
+    return handlerInput.requestEnvelope.request.type === 'SessionEndedRequest';
+  },
+  handle(handlerInput) {
+    console.log(`Session ended with reason: ${handlerInput.requestEnvelope.request.reason}`);
+    return handlerInput.responseBuilder.getResponse();
+  },
 };
 
-const startGameHandlers = Alexa.CreateStateHandler(states.STARTMODE, {
-    'NewSession': function () {
-        this.emit('NewSession'); // Uses the handler in newSessionHandlers
-    },
-    'AMAZON.HelpIntent': function() {
-        const message = 'I will think of a number between zero and one hundred, try to guess and I will tell you if it' +
-            ' is higher or lower. Do you want to start the game?';
-        this.response.speak(message).listen(message);
-        this.emit(':responseReady');
-    },
-    'AMAZON.YesIntent': function() {
-        this.attributes["guessNumber"] = Math.floor(Math.random() * 100);
-        this.handler.state = states.GUESSMODE;
-        this.response.speak('Great! ' + 'Try saying a number to start the game.').listen('Try saying a number.');
-        this.emit(':responseReady');
-    },
-    'AMAZON.NoIntent': function() {
-        console.log("NOINTENT");
-        this.response.speak('Ok, see you next time!');
-        this.emit(':responseReady');
-    },
-    "AMAZON.StopIntent": function() {
-      console.log("STOPINTENT");
-      this.response.speak("Goodbye!");
-      this.emit(':responseReady');
-    },
-    "AMAZON.CancelIntent": function() {
-      console.log("CANCELINTENT");
-      this.response.speak("Goodbye!");
-      this.emit(':responseReady');
-    },
-    'SessionEndedRequest': function () {
-        console.log("SESSIONENDEDREQUEST");
-        //this.attributes['endedSessionCount'] += 1;
-        this.response.speak("Goodbye!");
-        this.emit(':responseReady');
-    },
-    'Unhandled': function() {
-        console.log("UNHANDLED");
-        const message = 'Say yes to continue, or no to end the game.';
-        this.response.speak(message).listen(message);
-        this.emit(':responseReady');
-    }
-});
+const HelpIntent = {
+  canHandle(handlerInput) {
+    const { request } = handlerInput.requestEnvelope;
 
-const guessModeHandlers = Alexa.CreateStateHandler(states.GUESSMODE, {
-    'NewSession': function () {
-        this.handler.state = '';
-        this.emitWithState('NewSession'); // Equivalent to the Start Mode NewSession handler
-    },
-    'NumberGuessIntent': function() {
-        const guessNum = parseInt(this.event.request.intent.slots.number.value, 10);
-        const targetNum = this.attributes["guessNumber"];
-        console.log('user guessed: ' + guessNum);
+    return request.type === 'IntentRequest' && request.intent.name === 'AMAZON.HelpIntent';
+  },
+  handle(handlerInput) {
+    const speechOutput = 'I am thinking of a number between zero and one hundred, try to guess and I will tell you' +
+            ' if it is higher or lower.';
+    const reprompt = 'Try saying a number.';
 
-        if(guessNum > targetNum){
-            this.emit('TooHigh', guessNum);
-        } else if( guessNum < targetNum){
-            this.emit('TooLow', guessNum);
-        } else if (guessNum === targetNum){
-            // With a callback, use the arrow function to preserve the correct 'this' context
-            this.emit('JustRight', () => {
-                this.response.speak(guessNum.toString() + 'is correct! Would you like to play a new game?')
-                .listen('Say yes to start a new game, or no to end the game.');
-                this.emit(':responseReady');
-        });
-        } else {
-            this.emit('NotANum');
-        }
-    },
-    'AMAZON.HelpIntent': function() {
-        this.response.speak('I am thinking of a number between zero and one hundred, try to guess and I will tell you' +
-            ' if it is higher or lower.')
-            .listen('Try saying a number.');
-        this.emit(':responseReady');
-    },
-    "AMAZON.StopIntent": function() {
-        console.log("STOPINTENT");
-      this.response.speak("Goodbye!");
-      this.emit(':responseReady');
-    },
-    "AMAZON.CancelIntent": function() {
-        console.log("CANCELINTENT");
-    },
-    'SessionEndedRequest': function () {
-        console.log("SESSIONENDEDREQUEST");
-        this.attributes['endedSessionCount'] += 1;
-        this.response.speak("Goodbye!");
-        this.emit(':responseReady');
-    },
-    'Unhandled': function() {
-        console.log("UNHANDLED");
-        this.response.speak('Sorry, I didn\'t get that. Try saying a number.')
-        .listen('Try saying a number.');
-        this.emit(':responseReady');
-    }
-});
-
-// These handlers are not bound to a state
-const guessAttemptHandlers = {
-    'TooHigh': function(val) {
-        this.response.speak(val.toString() + ' is too high.')
-        .listen('Try saying a smaller number.');
-        this.emit(':responseReady');
-    },
-    'TooLow': function(val) {
-        this.response.speak(val.toString() + ' is too low.')
-        .listen('Try saying a larger number.');
-        this.emit(':responseReady');
-    },
-    'JustRight': function(callback) {
-        this.handler.state = states.STARTMODE;
-        this.attributes['gamesPlayed']++;
-        callback();
-    },
-    'NotANum': function() {
-        this.response.speak('Sorry, I didn\'t get that. Try saying a number.')
-        .listen('Try saying a number.');
-        this.emit(':responseReady');
-    }
+    return handlerInput.responseBuilder
+      .speak(speechOutput)
+      .reprompt(reprompt)
+      .getResponse();
+  },
 };
+
+const YesIntent = {
+  canHandle(handlerInput) {
+    const { request } = handlerInput.requestEnvelope;
+
+    return request.type === 'IntentRequest' && request.intent.name === 'AMAZON.YesIntent';
+  },
+  handle(handlerInput) {
+    const { attributesManager, responseBuilder } = handlerInput;
+
+    const sessionAttributes = attributesManager.getSessionAttributes();
+    sessionAttributes.guessNumber = Math.floor(Math.random() * 100);
+
+    return responseBuilder
+      .speak('Great! Try saying a number to start the game.')
+      .reprompt('Try saying a number.')
+      .getResponse();
+  },
+};
+
+const NoIntent = {
+  canHandle(handlerInput) {
+    const { request } = handlerInput.requestEnvelope;
+
+    return request.type === 'IntentRequest' && request.intent.name === 'AMAZON.NoIntent';
+  },
+  async handle(handlerInput) {
+    const { attributesManager, responseBuilder } = handlerInput;
+
+    const sessionAttributes = attributesManager.getSessionAttributes();
+    sessionAttributes.endedSessionCount += 1;
+    attributesManager.setPersistentAttributes(sessionAttributes);
+    await attributesManager.savePersistentAttributes();
+
+    return responseBuilder.speak('Ok, see you next time!').getResponse();
+  },
+};
+
+const UnhandledIntent = {
+  canHandle() {
+    return true;
+  },
+  handle(handlerInput) {
+    const outputSpeech = 'Say yes to continue, or no to end the game.';
+    return handlerInput.responseBuilder
+      .speak(outputSpeech)
+      .reprompt(outputSpeech)
+      .getResponse();
+  },
+};
+
+const NumberGuessIntent = {
+  canHandle(handlerInput) {
+    const { request } = handlerInput.requestEnvelope;
+
+    return request.type === 'IntentRequest' && request.intent.name === 'NumberGuessIntent';
+  },
+  async handle(handlerInput) {
+    const { requestEnvelope, attributesManager, responseBuilder } = handlerInput;
+
+    const guessNum = parseInt(requestEnvelope.request.intent.slots.number.value, 10);
+    const sessionAttributes = attributesManager.getSessionAttributes();
+    const targetNum = sessionAttributes.guessNumber;
+
+    if (guessNum > targetNum) {
+      return responseBuilder
+        .speak(`${guessNum.toString()} is too high.`)
+        .reprompt('Try saying a smaller number.')
+        .getResponse();
+    } else if (guessNum < targetNum) {
+      return responseBuilder
+        .speak(`${guessNum.toString()} is too low.`)
+        .reprompt('Try saying a larger number.')
+        .getResponse();
+    } else if (guessNum === targetNum) {
+      sessionAttributes.gamesPlayed += 1;
+      attributesManager.setPersistentAttributes(sessionAttributes);
+      await attributesManager.savePersistentAttributes();
+      return responseBuilder
+        .speak(`${guessNum.toString()} is correct! Would you like to play a new game?`)
+        .reprompt('Say yes to start a new game, or no to end the game.')
+        .getResponse();
+    }
+    return handlerInput.responseBuilder
+      .speak('Sorry, I didn\'t get that. Try saying a number.')
+      .reprompt('Try saying a number.')
+      .getResponse();
+  },
+};
+
+const ErrorHandler = {
+  canHandle() {
+    return true;
+  },
+  handle(handlerInput, error) {
+    console.log(`Error handled: ${error.message}`);
+
+    return handlerInput.responseBuilder
+      .speak('Sorry, I can\'t understand the command. Please say again.')
+      .reprompt('Sorry, I can\'t understand the command. Please say again.')
+      .getResponse();
+  },
+};
+
+const skillBuilder = Alexa.SkillBuilders.standard();
+
+exports.handler = skillBuilder
+  .addRequestHandlers(
+    LaunchRequest,
+    ExitHandler,
+    SessionEndedRequest,
+    HelpIntent,
+    YesIntent,
+    NoIntent,
+    NumberGuessIntent,
+    UnhandledIntent,
+  )
+  .addErrorHandlers(ErrorHandler)
+  .withTableName('High-Low-Game')
+  .withAutoCreateTable(true)
+  .lambda();
