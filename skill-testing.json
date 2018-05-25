@@ -2,7 +2,7 @@
   "handler": "lambda/custom/index.js",
   "locale": "en-US",
   "jest": {
-    "silent": true,
+    "silent": false,
     "coveragePathIgnorePatterns": []
   }
 }

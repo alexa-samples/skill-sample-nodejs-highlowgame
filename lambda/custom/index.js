@@ -104,6 +104,11 @@ const YesIntent = {
     sessionAttributes.gameState = 'STARTED';
     sessionAttributes.guessNumber = Math.floor(Math.random() * 101);
 
+    // For testing purposes, force a number to be picked if the UNIT_TEST environment variable is set
+    if (process.env.UNIT_TEST) {
+      sessionAttributes.guessNumber = 50;
+    }
+
     return responseBuilder
       .speak('Great! Try saying a number to start the game.')
       .reprompt('Try saying a number.')

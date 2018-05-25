@@ -19,23 +19,27 @@ configuration:
   userId: 000000
 
 ---
-- test: "Sequence 01. Test scenario: launch request, no further interaction."
+- test: "Sequence 01. Test scenario: launch request, play a game"
 - LaunchRequest:
-  - response.outputSpeech.ssml: "Welcome to High Low guessing game. You have played * times. would you like to play?"
+  - response.outputSpeech.ssml: "Welcome to High Low guessing game. You have played 0 times. would you like to play?"
   - response.reprompt.outputSpeech.ssml: "Say yes to start the game or no to quit."
   - response.shouldEndSession: false
   - response.card: undefined
   - sessionAttributes.gamesPlayed: 0
   - sessionAttributes.endedSessionCount: 0
+- yes
+- 50
 
 ---
 - test: "Sequence 02. Test scenario: Invoke NumberGuessIntent. Focus on user interaction."
 - LaunchRequest:
 - no:
   - response.outputSpeech.ssml: "Ok, see you next time!"
-  - sessionAttributes.gamesPlayed: 0
+  - sessionAttributes.gamesPlayed: 1
   - sessionAttributes.endedSessionCount: 1
 
+---
+- test: "Sequence 03. Test scenario: Invoke NumberGuessIntent. Focus on user interaction."
 - LaunchRequest:
 - yes:
   - response.outputSpeech.ssml: "Great! Try saying a number to start the game."
@@ -44,23 +48,20 @@ configuration:
   - sessionAttributes.gamesPlayed: 1
   - sessionAttributes.guessNumber: "*"
   - sessionAttributes.endedSessionCount: 1
-- fifty:
-  - response.outputSpeech.ssml == "50 is too low." goto "seventy five"
-  - response.outputSpeech.ssml == "50 is too high." goto "twenty five"
-  - response.outputSpeech.ssml == "50 is correct! Would you like to play a new game?" goto "no"
+- 40:
+  - response.outputSpeech.ssml == "40 is too low." goto "75"
+  - response.outputSpeech.ssml == "40 is too high." goto "50"
+  - response.outputSpeech.ssml == "40 is correct! Would you like to play a new game?" goto "no"
   - response.reprompt.outputSpeech.ssml: "Try saying a larger number."
   - response.reprompt.outputSpeech.ssml: "Try saying a lower number."
-- "seventy five":
-  - response.outputSpeech.ssml: "75 is too low." #goto "one hundred"
-  - response.outputSpeech.ssml: "75 is too high."  #goto "thirty eight"
+- 75:
+  - response.outputSpeech.ssml == "75 is too high." goto "50"
   - response.outputSpeech.ssml == "75 is correct! Would you like to play a new game?" goto "no"
   - response.reprompt.outputSpeech.ssml: "Try saying a larger number."
   - response.reprompt.outputSpeech.ssml: "Try saying a lower number."
 - stop: "*"
-- "twenty five":
-  - response.outputSpeech.ssml: "25 is too low." #goto "thirty eight"
-  - response.outputSpeech.ssml: "25 is too high."  #goto "thirteen"
-  - response.outputSpeech.ssml == "25 is correct! Would you like to play a new game?" goto "no"
+- 50:
+  - response.outputSpeech.ssml == "50 is correct! Would you like to play a new game?" goto "no"
   - response.reprompt.outputSpeech.ssml: "Try saying a larger number."
   - response.reprompt.outputSpeech.ssml: "Try saying a lower number."
 - stop: "*"
@@ -72,12 +73,12 @@ configuration:
 
 ---
 # It would be great to use some of the values that comes in the response as utterances to improve interaction
-- test: "Sequence 03. Test scenario: Invoke NumberGuessIntent and say no"
+- test: "Sequence 04. Test scenario: Invoke NumberGuessIntent and say no"
 - LaunchRequest:
 - yes:
-- sessionAttributes.guessNumber: "* is correct! Would you like to play a new game?"
+  - sessionAttributes.guessNumber: 50
 - no:
   - response.outputSpeech.ssml: "Ok, see you next time!"
   - sessionAttributes.gamesPlayed: 2
   - sessionAttributes.guessNumber: "*"
-  - sessionAttributes.endedSessionCount: 2
+  - sessionAttributes.endedSessionCount: 3
