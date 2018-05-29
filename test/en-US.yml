@@ -42,13 +42,14 @@ configuration:
 - test: "Sequence 03. Test scenario: Invoke NumberGuessIntent. Focus on user interaction."
 - LaunchRequest:
 - yes:
-  - response.outputSpeech.ssml: "Great! Try saying a number to start the game."
+  - response.outputSpeech.ssml === test
   - response.reprompt.outputSpeech.ssml: "Try saying a number."
   - response.shouldEndSession: false
   - sessionAttributes.gamesPlayed: 1
   - sessionAttributes.guessNumber: "*"
   - sessionAttributes.endedSessionCount: 1
 - 40:
+  - exit
   - response.outputSpeech.ssml == "40 is too low." goto "75"
   - response.outputSpeech.ssml == "40 is too high." goto "50"
   - response.outputSpeech.ssml == "40 is correct! Would you like to play a new game?" goto "no"
@@ -79,6 +80,6 @@ configuration:
   - sessionAttributes.guessNumber: 50
 - no:
   - response.outputSpeech.ssml: "Ok, see you next time!"
-  - sessionAttributes.gamesPlayed: 2
+  - sessionAttributes.gamesPlayed: 5
   - sessionAttributes.guessNumber: "*"
   - sessionAttributes.endedSessionCount: 3
