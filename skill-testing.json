@@ -1,8 +1,9 @@
 {
   "handler": "lambda/custom/index.js",
   "locale": "en-US",
+  "trace": "false",
   "jest": {
-    "silent": false,
+    "silent": true,
     "coveragePathIgnorePatterns": []
   }
 }

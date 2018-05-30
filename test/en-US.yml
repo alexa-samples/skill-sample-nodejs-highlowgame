@@ -19,7 +19,7 @@ configuration:
   userId: 000000
 
 ---
-- test: "Sequence 01. Test scenario: launch request, play a game"
+- test: "Sequence 01. Test scenario: launch request, play one game"
 - LaunchRequest:
   - response.outputSpeech.ssml: "Welcome to High Low guessing game. You have played 0 times. would you like to play?"
   - response.reprompt.outputSpeech.ssml: "Say yes to start the game or no to quit."
@@ -27,59 +27,75 @@ configuration:
   - response.card: undefined
   - sessionAttributes.gamesPlayed: 0
   - sessionAttributes.endedSessionCount: 0
-- yes
-- 50
+- yes:
+  - response.outputSpeech.ssml: "Great! Try saying a number to start the game."
+  - response.reprompt.outputSpeech.ssml: "Try saying a number."
+  - response.shouldEndSession: false
+- 50:
+  - response.outputSpeech.ssml: "50 is correct! Would you like to play a new game?"
+  - response.reprompt.outputSpeech.ssml: "Say yes to start a new game, or no to end the game."
+  - response.shouldEndSession: false
+  - sessionAttributes.gamesPlayed: 1
+  - sessionAttributes.endedSessionCount: 0
+  - sessionAttributes.guessNumber: 50
+- no:
+  - prompt: "Ok, see you next time!"
+  - sessionAttributes.gamesPlayed: 1
+  - sessionAttributes.endedSessionCount: 1
+  - sessionAttributes.guessNumber: 50
 
 ---
-- test: "Sequence 02. Test scenario: Invoke NumberGuessIntent. Focus on user interaction."
+- test: "Sequence 02. Test scenario: Invoke NumberGuessIntent, do not play."
 - LaunchRequest:
 - no:
   - response.outputSpeech.ssml: "Ok, see you next time!"
   - sessionAttributes.gamesPlayed: 1
-  - sessionAttributes.endedSessionCount: 1
+  - sessionAttributes.endedSessionCount: 2 # Previous sequence counts as one ended session
 
 ---
-- test: "Sequence 03. Test scenario: Invoke NumberGuessIntent. Focus on user interaction."
+- test: "Sequence 03. Test scenario: Invoke NumberGuessIntent, play and guess several times."
 - LaunchRequest:
 - yes:
-  - response.outputSpeech.ssml === test
   - response.reprompt.outputSpeech.ssml: "Try saying a number."
   - response.shouldEndSession: false
   - sessionAttributes.gamesPlayed: 1
   - sessionAttributes.guessNumber: "*"
-  - sessionAttributes.endedSessionCount: 1
-- 40:
-  - exit
-  - response.outputSpeech.ssml == "40 is too low." goto "75"
-  - response.outputSpeech.ssml == "40 is too high." goto "50"
-  - response.outputSpeech.ssml == "40 is correct! Would you like to play a new game?" goto "no"
+  - sessionAttributes.endedSessionCount: 2
+- 30:
+  - response.outputSpeech.ssml == "30 is too low." goto 60
+  - response.outputSpeech.ssml == "30 is correct! Would you like to play a new game?" goto "no"
   - response.reprompt.outputSpeech.ssml: "Try saying a larger number."
   - response.reprompt.outputSpeech.ssml: "Try saying a lower number."
-- 75:
-  - response.outputSpeech.ssml == "75 is too high." goto "50"
-  - response.outputSpeech.ssml == "75 is correct! Would you like to play a new game?" goto "no"
+- 60:
+  - response.outputSpeech.ssml == "60 is too high." goto "50"
+  - response.outputSpeech.ssml == "60 is correct! Would you like to play a new game?" goto "no"
   - response.reprompt.outputSpeech.ssml: "Try saying a larger number."
   - response.reprompt.outputSpeech.ssml: "Try saying a lower number."
-- stop: "*"
 - 50:
   - response.outputSpeech.ssml == "50 is correct! Would you like to play a new game?" goto "no"
   - response.reprompt.outputSpeech.ssml: "Try saying a larger number."
   - response.reprompt.outputSpeech.ssml: "Try saying a lower number."
-- stop: "*"
 - no:
   - response.outputSpeech.ssml: "Ok, see you next time!"
   - sessionAttributes.gamesPlayed: 2
-  - sessionAttributes.guessNumber: "*"
-  - sessionAttributes.endedSessionCount: 2
+  - sessionAttributes.guessNumber: "50"
+  - sessionAttributes.endedSessionCount: 3
 
 ---
-# It would be great to use some of the values that comes in the response as utterances to improve interaction
-- test: "Sequence 04. Test scenario: Invoke NumberGuessIntent and say no"
+- test: "Sequence 04. Test scenario: Invoke NumberGuessIntent and ask for help and then stop."
 - LaunchRequest:
-- yes:
-  - sessionAttributes.guessNumber: 50
-- no:
-  - response.outputSpeech.ssml: "Ok, see you next time!"
-  - sessionAttributes.gamesPlayed: 5
-  - sessionAttributes.guessNumber: "*"
-  - sessionAttributes.endedSessionCount: 3
+- help:
+  - prompt: "I am thinking of a number between zero and one hundred, try to guess and I will tell you if it is higher or lower."
+  - reprompt: "Try saying a number."
+  - response.shouldEndSession: false
+- stop:
+  - prompt: "Goodbye!"
+
+---
+- test: "Sequence 05. Test scenario: Invoke NumberGuessIntent and test ErrorHandler."
+- LaunchRequest:
+- bananas:
+  - prompt: "Sorry, I can't understand the command. Please say again."
+  - reprompt: "Sorry, I can't understand the command. Please say again."
+- cancel:
+  - prompt: "Goodbye!"
