@@ -20,10 +20,6 @@
           "samples": []
         },
         {
-          "name": "AMAZON.FallbackIntent",
-          "samples": []
-        },
-        {
           "name": "AMAZON.NoIntent",
           "samples": []
         },
