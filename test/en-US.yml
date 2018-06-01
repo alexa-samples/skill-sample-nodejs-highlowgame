@@ -1,12 +1,11 @@
 #=====================================================================================================================
-#  ██████╗ ███████╗███████╗██████╗  ██████╗ ██╗  ██╗███████╗███╗   ██╗
-#  ██╔══██╗██╔════╝██╔════╝██╔══██╗██╔═══██╗██║ ██╔╝██╔════╝████╗  ██║
-#  ██████╔╝█████╗  ███████╗██████╔╝██║   ██║█████╔╝ █████╗  ██╔██╗ ██║
-#  ██╔══██╗██╔══╝  ╚════██║██╔═══╝ ██║   ██║██╔═██╗ ██╔══╝  ██║╚██╗██║
-#  ██████╔╝███████╗███████║██║     ╚██████╔╝██║  ██╗███████╗██║ ╚████║
-#  ╚═════╝ ╚══════╝╚══════╝╚═╝      ╚═════╝ ╚═╝  ╚═╝╚══════╝╚═╝  ╚═══╝
+#     ______    _ ____  ______        __  _
+#    / __/ /__ (_) / / /_  __/__ ___ / /_(_)__  ___ _
+#   _\ \/  '_// / / /   / / / -_|_-</ __/ / _ \/ _ `/
+#  /___/_/\_\/_/_/_/   /_/  \__/___/\__/_/_//_/\_, /
+#                                             /___/
 #
-# Test type: Functional/End-to-End/Regression
+# Test type: Unit/Functional/End-to-End/Regression
 # Skill name: "High Low Game" by Amazon
 # Test scope: LaunchRequest, NumberGuessIntent, AMAZON.HelpIntent, AMAZON.StopIntent,
 #             AMAZON.CancelIntent, AMAZON.YesIntent, AMAZON.NoIntent
@@ -89,13 +88,4 @@ configuration:
   - reprompt: "Try saying a number."
   - response.shouldEndSession: false
 - stop:
-  - prompt: "Goodbye!"
-
----
-- test: "Sequence 05. Test scenario: Invoke NumberGuessIntent and test ErrorHandler."
-- LaunchRequest:
-- bananas:
-  - prompt: "Sorry, I can't understand the command. Please say again."
-  - reprompt: "Sorry, I can't understand the command. Please say again."
-- cancel:
   - prompt: "Goodbye!"
