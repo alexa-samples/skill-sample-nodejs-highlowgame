@@ -89,3 +89,19 @@ configuration:
   - response.shouldEndSession: false
 - stop:
   - prompt: "Goodbye!"
+
+---
+- test: "Sequence 05. Test scenario: Handles SessionEndedRequest"
+- LaunchRequest:
+- SessionEndedRequest:
+  - response: undefined
+
+---
+- test: "Sequence 06. Test scenario: Test a non-number is passed"
+- LaunchRequest
+- yes
+- "Not a number":
+  - intent: NumberGuessIntent
+  - slots:
+    number: hi
+  - response.outputSpeech.ssml: "Sorry, I didn't get that. Try saying a number."
