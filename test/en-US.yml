@@ -5,10 +5,13 @@
 #  /___/_/\_\/_/_/_/   /_/  \__/___/\__/_/_//_/\_, /
 #                                             /___/
 #
-# Test type: Unit/Functional/End-to-End/Regression
+# Created by Bespoken
+# Learn more at https://read.bespoken.io/unit-testing/getting-started/
+#
 # Skill name: "High Low Game" by Amazon
 # Test scope: LaunchRequest, NumberGuessIntent, AMAZON.HelpIntent, AMAZON.StopIntent,
 #             AMAZON.CancelIntent, AMAZON.YesIntent, AMAZON.NoIntent
+# Description: Tests all intents using - forces the number to always be 50 for simplicity of testing
 #=====================================================================================================================
 
 ---
