@@ -106,5 +106,5 @@ configuration:
 - "Not a number":
   - intent: NumberGuessIntent
   - slots:
-    number: hi
+      number: hi
   - response.outputSpeech.ssml: "Sorry, I didn't get that. Try saying a number."
