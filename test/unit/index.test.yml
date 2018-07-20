@@ -1,0 +1,105 @@
+#=====================================================================================================================
+#     ______    _ ____  ______        __  _
+#    / __/ /__ (_) / / /_  __/__ ___ / /_(_)__  ___ _
+#   _\ \/  '_// / / /   / / / -_|_-</ __/ / _ \/ _ `/
+#  /___/_/\_\/_/_/_/   /_/  \__/___/\__/_/_//_/\_, /
+#                                             /___/
+#
+# Created by Bespoken
+# Learn more at https://read.bespoken.io/unit-testing/getting-started/
+#
+# Skill name: "High Low Game" by Amazon
+# Test scope: LaunchRequest, NumberGuessIntent, AMAZON.HelpIntent, AMAZON.StopIntent,
+#             AMAZON.CancelIntent, AMAZON.YesIntent, AMAZON.NoIntent
+# Description: Tests all intents using - forces the number to always be 50 for simplicity of testing
+#=====================================================================================================================
+
+---
+configuration:
+  locale: en-US
+  dynamo: mock
+  userId: 000000
+
+---
+- test: Launch request, play one game
+- LaunchRequest: # LaunchRequest is not an utterance but a request type and reserved word
+  - response.outputSpeech.ssml: Welcome to High Low guessing game. You have played 0 times. would you like to play?
+  - response.reprompt.outputSpeech.ssml: Say yes to start the game or no to quit.
+  - response.shouldEndSession: false
+  - response.card: undefined
+  - sessionAttributes.gamesPlayed: 0
+  - sessionAttributes.endedSessionCount: 0
+- AMAZON.YesIntent:
+  - response.outputSpeech.ssml: Great! Try saying a number to start the game.
+  - response.reprompt.outputSpeech.ssml: Try saying a number.
+  - response.shouldEndSession: false
+- NumberGuessIntent number=50:
+  - response.outputSpeech.ssml: 50 is correct! Would you like to play a new game?
+  - response.reprompt.outputSpeech.ssml: Say yes to start a new game, or no to end the game.
+  - response.shouldEndSession: false
+  - sessionAttributes.gamesPlayed: 1
+  - sessionAttributes.endedSessionCount: 0
+  - sessionAttributes.guessNumber: 50
+- AMAZON.NoIntent:
+  - prompt: Ok, see you next time!
+  - sessionAttributes.gamesPlayed: 1
+  - sessionAttributes.endedSessionCount: 1
+  - sessionAttributes.guessNumber: 50
+
+---
+- test: Invoke NumberGuessIntent, do not play.
+- NumberGuessIntent
+- AMAZON.NoIntent:
+  - response.outputSpeech.ssml: Ok, see you next time!
+  - sessionAttributes.gamesPlayed: 1
+  - sessionAttributes.endedSessionCount: 2 # Previous sequence counts as one ended session
+
+---
+- test: Invoke NumberGuessIntent, play and guess several times.
+- NumberGuessIntent
+- AMAZON.YesIntent:
+  - response.reprompt.outputSpeech.ssml: Try saying a number.
+  - response.shouldEndSession: false
+  - sessionAttributes.gamesPlayed: 1
+  - sessionAttributes.guessNumber: "*"
+  - sessionAttributes.endedSessionCount: 2
+- NumberGuessIntent number=30:
+  - response.outputSpeech.ssml == 30 is too low. goto NumberGuessIntent number=60
+  - response.outputSpeech.ssml == 30 is correct! Would you like to play a new game? goto AMAZON.NoIntent
+  - response.reprompt.outputSpeech.ssml: Try saying a larger number.
+  - response.reprompt.outputSpeech.ssml: Try saying a lower number.
+- NumberGuessIntent number=60:
+  - response.outputSpeech.ssml == 60 is too high. goto NumberGuessIntent number=50
+  - response.outputSpeech.ssml == 60 is correct! Would you like to play a new game? goto AMAZON.NoIntent
+  - response.reprompt.outputSpeech.ssml: Try saying a larger number.
+  - response.reprompt.outputSpeech.ssml: Try saying a lower number.
+- NumberGuessIntent number=50:
+  - response.outputSpeech.ssml == 50 is correct! Would you like to play a new game? goto AMAZON.NoIntent
+  - response.reprompt.outputSpeech.ssml: Try saying a larger number.
+  - response.reprompt.outputSpeech.ssml: Try saying a lower number.
+- AMAZON.NoIntent:
+  - response.outputSpeech.ssml: Ok, see you next time!
+  - sessionAttributes.gamesPlayed: 2
+  - sessionAttributes.guessNumber: 50
+  - sessionAttributes.endedSessionCount: 3
+
+---
+- test: Invoke NumberGuessIntent and ask for help and then stop.
+- NumberGuessIntent
+- AMAZON.HelpIntent:
+  - prompt: I am thinking of a number between zero and one hundred, try to guess and I will tell you if it is higher or lower.
+  - reprompt: Try saying a number.
+  - response.shouldEndSession: false
+- AMAZON.StopIntent: Goodbye!
+
+---
+- test: Handles SessionEndedRequest
+- LaunchRequest
+- SessionEndedRequest:
+  - response: undefined
+
+---
+- test: Test a non-number is passed
+- LaunchRequest
+- AMAZON.YesIntent
+- NumberGuessIntent number=hi: Sorry, I didn't get that. Try saying a number.

@@ -1,0 +1,8 @@
+{
+  "handler": "../../lambda/custom/index.js",
+  "trace": false,
+  "jest": {
+    "silent": false,
+    "coveragePathIgnorePatterns": []
+  }
+}
