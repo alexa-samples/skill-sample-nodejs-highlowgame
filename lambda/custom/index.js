@@ -2,7 +2,10 @@
 /* eslint-disable  no-console */
 /* eslint-disable  no-restricted-syntax */
 
-const Alexa = require('ask-sdk');
+//Node.js 8.10
+const Alexa = require('ask-sdk-core');
+//old nodejs 6.1
+//const Alexa = require('ask-sdk');
 
 const SKILL_NAME = 'High Low Game';
 const FALLBACK_MESSAGE_DURING_GAME = `The ${SKILL_NAME} skill can't help you with that.  Try guessing a number between 0 and 100. `;
@@ -251,8 +254,8 @@ const FallbackHandler = {
       .getResponse();
   },
 };
-
-const skillBuilder = Alexa.SkillBuilders.standard();
+/node.js 8.10 .custom() // 6.10 was .standard()
+const skillBuilder = Alexa.SkillBuilders.custom();
 
 exports.handler = skillBuilder
   .addRequestHandlers(

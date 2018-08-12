@@ -22,6 +22,10 @@
   },
   "homepage": "https://github.com/alexa/skill-sample-nodejs-highlowgame#readme",
   "dependencies": {
-    "ask-sdk": "^2.0.0"
+    "ask-sdk-core": "^2.0.0",
+    "ask-sdk-model": "^1.0.0"
+    "ask-sdk": "^2.0.0",
+    "ask-sdk-dynamodb-persistence-adapter": "^2.0.7",
+    "dynamodb": "^1.1.2"
   }
 }
