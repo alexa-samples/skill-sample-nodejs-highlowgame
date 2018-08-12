@@ -254,8 +254,8 @@ const FallbackHandler = {
       .getResponse();
   },
 };
-
-const skillBuilder = Alexa.SkillBuilders.standard();
+/node.js 8.10 .custom() // 6.10 was .standard()
+const skillBuilder = Alexa.SkillBuilders.custom();
 
 exports.handler = skillBuilder
   .addRequestHandlers(
