@@ -266,7 +266,7 @@ exports.handler = skillBuilder
     FallbackHandler,
     UnhandledIntent,
   )
-  .addErrorHandlers(ErrorHandler)
+  //.addErrorHandlers(ErrorHandler)
   .withTableName('High-Low-Game')
   .withAutoCreateTable(true)
   .lambda();
