@@ -87,10 +87,10 @@ configuration:
 - test: Invoke NumberGuessIntent and ask for help and then stop.
 - NumberGuessIntent
 - AMAZON.HelpIntent:
-  - prompt: I am thinking of a number between zero and one hundred, try to guess and I will tell you if it is higher or lower.
+  - prompt: I am thinking of a number between zero and one hundred, try to guess it and I will tell you if it is higher or lower.
   - reprompt: Try saying a number.
   - response.shouldEndSession: false
-- AMAZON.StopIntent: Goodbye!
+- AMAZON.StopIntent: Thanks for playing!
 
 ---
 - test: Handles SessionEndedRequest
