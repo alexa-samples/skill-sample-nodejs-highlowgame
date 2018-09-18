@@ -103,3 +103,23 @@ configuration:
 - LaunchRequest
 - AMAZON.YesIntent
 - NumberGuessIntent number=hi: Sorry, I didn't get that. Try saying a number.
+
+---
+- test: Handles Fallback intent outside the game
+- LaunchRequest
+- AMAZON.FallbackIntent:
+  - prompt: The High Low Game skill can't help you with that.  It will come up with a number between 0 and 100 and you try to guess it by saying a number in that range. Would you like to play?
+  - reprompt: Say yes to start the game or no to quit.
+  - response.shouldEndSession: false
+  - sessionAttributes.gameState: ENDED
+
+---
+- test: Handles Fallback intent during the game
+- LaunchRequest
+- AMAZON.YesIntent
+- AMAZON.FallbackIntent:
+  - prompt: The High Low Game skill can't help you with that.  Try guessing a number between 0 and 100.
+  - reprompt: Please guess a number between 0 and 100.
+  - response.shouldEndSession: false
+  - sessionAttributes.gameState: STARTED
+  - sessionAttributes.guessNumber: 50
