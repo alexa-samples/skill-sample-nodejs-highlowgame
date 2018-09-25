@@ -24,10 +24,13 @@ Be sure to take a look at the [Additional Resources](#additional-resources) at t
 ### Usage
 
 ```text
-Alexa, ask high low game if it's five.
-	>> Five is too low. Try saying a larger number.
-
 Alexa, open high low game
+	>> ...Would you like to play?
+Yes
+	>> ...Guess a number...
+Five
+	>> Five is too low. Try saying a larger number.
+...
 ```
 
 ### Repository Contents
@@ -53,14 +56,13 @@ Alexa, open high low game
 	$ git clone https://github.com/alexa/skill-sample-nodejs-highlowgame/
 	```
 
-2. Initiatialize the [ASK CLI](https://developer.amazon.com/docs/smapi/quick-start-alexa-skills-kit-command-line-interface.html) by Navigating into the repository and running npm command: `ask init`. Follow the prompts.
+2. Navigating into the repository's root folder.
 
 	```bash
 	$ cd skill-sample-nodejs-highlowgame
-	$ ask init
 	```
 
-3. Install npm dependencies by navigating into the `/lambda/custom` directory and running the npm command: `npm install`
+3. Install npm dependencies by navigating into the `lambda/custom` directory and running the npm command: `npm install`
 
 	```bash
 	$ cd lambda/custom
@@ -78,6 +80,15 @@ ASK CLI will create the skill and the lambda function for you. The Lambda functi
 	$ ask deploy
 	```
 
+2. Once deployed, additional permissions need to be added to the AWS IAM role being used by the skill since it is persisting data in Amazon DynamoDB.  Navigate to the [AWS IAM console](https://console.aws.amazon.com/iam/home#/roles).
+
+	> _Note: We are adding the full access policy here for convenience.  For a production skill, you should use a more targeted policy restricting access to just the required resources.  Refer to the [DynamoDB documentation](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/access-control-overview.html) for more details._
+
+	1. Locate the role for your skill (by default, it is named ```ask-lambda-<your skill name>```).
+	1. Click on the role, then click **Attach Policy**.
+	1. Search for **AmazonDynamoDBFullAccess** and click the check box next to it.
+	1. Click **Attach Policy**.
+
 ### Testing
 
 1. To test, you need to login to Alexa Developer Console, and enable the "Test" switch on your skill from the "Test" Tab.
@@ -93,6 +104,8 @@ ASK CLI will create the skill and the lambda function for you. The Lambda functi
 	  ...
 	 ```
 
+> _Note: if you did not add the DynamoDB permission as described in the previous step, the skill will return an error and you will see an error in your CloudWatch Logs reporting:  ...```Coud not read item```...```is not authorized to perform: dynamodb:GetItem```..._
+
 3. Once the "Test" switch is enabled, your skill can be tested on devices associated with the developer account as well. Speak to Alexa from any enabled device, from your browser at [echosim.io](https://echosim.io/welcome), or through your Amazon Mobile App and say :
 
 	```text
@@ -105,17 +118,17 @@ ASK CLI will create the skill and the lambda function for you. The Lambda functi
 
    Change the skill name, example phrase, icons, testing instructions etc ...
 
-   Remember that many information is locale-specific and must be changed for each locale (en-GB and en-US)
+   Remember that some of the information is locale-specific and must be changed for each locale (en-GB and en-US)
 
    See the Skill [Manifest Documentation](https://developer.amazon.com/docs/smapi/skill-manifest.html) for more information.
 
 2. ```./lambda/custom/index.js```
 
-   Modify messages, and facts from the source code to customize the skill.
+   Modify messages, and other strings (and perhaps the number range) from the source code to customize the skill.
 
 3. ```./models/*.json```
 
-	Change the model definition to replace the invocation name and the sample phrase for each intent.  Repeat the operation for each locale you are planning to support.
+	Change the model definition to replace the invocation name and, if necessary for your customization, the sample phrases for each intent.  Repeat the operation for each locale you are planning to support.
 
 ## Additional Resources
 
@@ -130,5 +143,3 @@ ASK CLI will create the skill and the lambda function for you. The Lambda functi
 ### Documentation
 * [Official Alexa Skills Kit Node.js SDK](https://www.npmjs.com/package/alexa-sdk) - The Official Node.js SDK Documentation
 *  [Official Alexa Skills Kit Documentation](https://developer.amazon.com/docs/ask-overviews/build-skills-with-the-alexa-skills-kit.html) - Official Alexa Skills Kit Documentation
-
-<img height="1" width="1" src="https://www.facebook.com/tr?id=1847448698846169&ev=PageView&noscript=1"/>

@@ -11,6 +11,16 @@
           ],
           "name": "High Low Game",
           "description": "Guess a number, and Alexa will tell you if you need to guess higher or lower. She will also tell you how many times you have played. "
+        },
+        "en-GB": {
+          "summary": "Guess a number, and Alexa will tell you if you need to guess higher or lower.",
+          "examplePhrases": [
+            "Alexa open high low game",
+            "Alexa start high low game",
+            "Alexa ask high low game is it {number}"
+          ],
+          "name": "High Low Game",
+          "description": "Guess a number, and Alexa will tell you if you need to guess higher or lower. She will also tell you how many times you have played. "
         }
       },
       "isAvailableWorldwide": true,

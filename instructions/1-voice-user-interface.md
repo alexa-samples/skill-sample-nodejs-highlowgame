@@ -4,9 +4,7 @@
 ## Setting up Your Alexa Skill in the Developer Portal
 1.  **Go to the [Amazon Developer Portal](http://developer.amazon.com).  In the top-right corner of the screen, click the "Sign In" button.** </br>(If you don't already have an account, you will be able to create a new one for free.)
 
-
 2.  Once you have signed in, move your mouse over the **Your Alexa Consoles** text at the top of the screen and Select the **Skills (New)** Link.
-
 
 3.  From the **Alexa Skills Console (New Console)** select the **Create Skill** button near the top of the screen.
 
