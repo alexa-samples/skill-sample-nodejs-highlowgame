@@ -22,6 +22,9 @@
   },
   "homepage": "https://github.com/alexa/skill-sample-nodejs-highlowgame#readme",
   "dependencies": {
-    "ask-sdk": "^2.0.0"
+    "ask-sdk-core": "^2.0.0",
+    "ask-sdk-model": "^1.0.0",
+    "i18next": "^11.8.0",
+    "i18next-sprintf-postprocessor": "^0.2.2"
   }
 }
