@@ -2,7 +2,7 @@
 /* eslint-disable  no-console */
 /* eslint-disable  no-restricted-syntax */
 
-const Alexa = require('ask-sdk-core');
+const Alexa = require('ask-sdk');
 const i18n = require('i18next');
 const sprintf = require('i18next-sprintf-postprocessor');
 
@@ -94,14 +94,13 @@ const YesIntent = {
   },
   handle(handlerInput) {
     const attributesManager = handlerInput.attributesManager;
-    const responseBuilder = handlerInput.responseBuilder;
     const sessionAttributes = attributesManager.getSessionAttributes();
     const requestAttributes = handlerInput.attributesManager.getRequestAttributes();
 
     sessionAttributes.gameState = 'STARTED';
     sessionAttributes.guessNumber = Math.floor(Math.random() * 101);
 
-    return responseBuilder
+    return handlerInput.responseBuilder
       .speak(requestAttributes.t('YES_MESSAGE'))
       .reprompt(requestAttributes.t('HELP_REPROMPT'))
       .getResponse();
@@ -182,13 +181,13 @@ const NumberGuessIntent = {
 
     if (guessNum > targetNum) {
       return handlerInput.responseBuilder
-        .speak(guessNum.toString() + requestAttributes.t('TOO_HIGH_MESSAGE')
-        .reprompt(requestAttributes.t('TOO_HIGH_REPROMPT')
+        .speak(guessNum.toString() + requestAttributes.t('TOO_HIGH_MESSAGE'))
+        .reprompt(requestAttributes.t('TOO_HIGH_REPROMPT'))
         .getResponse();
     } else if (guessNum < targetNum) {
       return handlerInput.responseBuilder
-        .speak(guessNum.toString() + requestAttributes.t('TOO_LOW_MESSAGE')
-        .reprompt(requestAttributes.t('TOO_LOW_REPROMPT')
+        .speak(guessNum.toString() + requestAttributes.t('TOO_LOW_MESSAGE'))
+        .reprompt(requestAttributes.t('TOO_LOW_REPROMPT'))
         .getResponse();
     } else if (guessNum === targetNum) {
       sessionAttributes.gamesPlayed += 1;
@@ -196,7 +195,7 @@ const NumberGuessIntent = {
       attributesManager.setPersistentAttributes(sessionAttributes);
       await attributesManager.savePersistentAttributes();
       return handlerInput.responseBuilder
-        .speak(guessNum.toString() + requestAttributes.t('GUESS_CORRECT_MESSAGE')
+        .speak(guessNum.toString() + requestAttributes.t('GUESS_CORRECT_MESSAGE'))
         .reprompt(requestAttributes.t('GUESS_CORRECT_REPROMPT'))
         .getResponse();
     }
@@ -244,15 +243,15 @@ const FallbackHandler = {
       // currently playing
 
       return handlerInput.responseBuilder
-        .speak(requestAttributes.t('FALLBACK_MESSAGE_DURING_GAME')
-        .reprompt(requestAttributes.t('FALLBACK_REPROMPT_DURING_GAME')
+        .speak(requestAttributes.t('FALLBACK_MESSAGE_DURING_GAME'))
+        .reprompt(requestAttributes.t('FALLBACK_REPROMPT_DURING_GAME'))
         .getResponse();
     }
 
     // not playing
     return handlerInput.responseBuilder
-      .speak(requestAttributes.t('FALLBACK_MESSAGE_OUTSIDE_GAME')
-      .reprompt(requestAttributes.t('FALLBACK_REPROMPT_OUTSIDE_GAME')
+      .speak(requestAttributes.t('FALLBACK_MESSAGE_OUTSIDE_GAME'))
+      .reprompt(requestAttributes.t('FALLBACK_REPROMPT_OUTSIDE_GAME'))
       .getResponse();
   },
 };
@@ -312,12 +311,12 @@ const enData = {
   translation: {
     SKILL_NAME: 'High Low Game',
     EXIT_MESSAGE: 'Thanks for playing!',
-    FALLBACK_MESSAGE_DURING_GAME: `The ${SKILL_NAME} skill can't help you with that.  Try guessing a number between 0 and 100. `,
+    FALLBACK_MESSAGE_DURING_GAME: `The High Low Game skill can't help you with that.  Try guessing a number between 0 and 100. `,
     FALLBACK_REPROMPT_DURING_GAME: 'Please guess a number between 0 and 100.',
-    FALLBACK_MESSAGE_OUTSIDE_GAME: `The ${SKILL_NAME} skill can't help you with that.  It will come up with a number between 0 and 100 and you try to guess it by saying a number in that range. Would you like to play?`,
+    FALLBACK_MESSAGE_OUTSIDE_GAME: `The High Low Game skill can't help you with that.  It will come up with a number between 0 and 100 and you try to guess it by saying a number in that range. Would you like to play?`,
     FALLBACK_REPROMPT_OUTSIDE_GAME: 'Say yes to start the game or no to quit.',
     GUESS_CORRECT_MESSAGE: ' is correct! Would you like to play a new game?',
-    GUESS_CORRECT_REPROMPT: 'Say yes to start a new game, or no to end the game.'
+    GUESS_CORRECT_REPROMPT: 'Say yes to start a new game, or no to end the game.',
     LAUNCH_FIRST: 'Welcome to High Low guessing game. You have played ',
     LAUNCH_SECOND: ' times. would you like to play?',
     LAUNCH_REPROMPT: 'Say yes to start the game or no to quit.',
@@ -329,6 +328,7 @@ const enData = {
     HELP_REPROMPT: 'Try saying a number.',
     ERROR_MESSAGE: 'Sorry, an error occurred.',
     UNHANDLED_RESPONSE: 'Say yes to continue, or no to end the game.',
+    YES_MESSAGE: 'Great! Try saying a number to start the game.',
     STOP_MESSAGE: 'Ok, see you next time!'
   },
 };
