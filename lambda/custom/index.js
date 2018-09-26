@@ -27,8 +27,10 @@ const LaunchRequest = {
     attributesManager.setSessionAttributes(attributes);
 
     const requestAttributes = handlerInput.attributesManager.getRequestAttributes();
-    const speechOutput = requestAttributes.t('LAUNCH_FIRST') + attributes.gamesPlayed.toString() + requestAttributes.t('LAUNCH_SECOND');
+    const gamesPlayed = attributes.gamesPlayed.toString()
+    const speechOutput = requestAttributes.t('LAUNCH_MESSAGE', gamesPlayed);
     const reprompt = requestAttributes.t('LAUNCH_REPROMPT');
+
     return responseBuilder
       .speak(speechOutput)
       .reprompt(reprompt)
@@ -181,12 +183,12 @@ const NumberGuessIntent = {
 
     if (guessNum > targetNum) {
       return handlerInput.responseBuilder
-        .speak(guessNum.toString() + requestAttributes.t('TOO_HIGH_MESSAGE'))
+        .speak(requestAttributes.t('TOO_HIGH_MESSAGE', guessNum.toString()))
         .reprompt(requestAttributes.t('TOO_HIGH_REPROMPT'))
         .getResponse();
     } else if (guessNum < targetNum) {
       return handlerInput.responseBuilder
-        .speak(guessNum.toString() + requestAttributes.t('TOO_LOW_MESSAGE'))
+        .speak(requestAttributes.t('TOO_LOW_MESSAGE', guessNum.toString()))
         .reprompt(requestAttributes.t('TOO_LOW_REPROMPT'))
         .getResponse();
     } else if (guessNum === targetNum) {
@@ -195,7 +197,7 @@ const NumberGuessIntent = {
       attributesManager.setPersistentAttributes(sessionAttributes);
       await attributesManager.savePersistentAttributes();
       return handlerInput.responseBuilder
-        .speak(guessNum.toString() + requestAttributes.t('GUESS_CORRECT_MESSAGE'))
+        .speak(requestAttributes.t('GUESS_CORRECT_MESSAGE', guessNum.toString()))
         .reprompt(requestAttributes.t('GUESS_CORRECT_REPROMPT'))
         .getResponse();
     }
@@ -304,72 +306,3 @@ exports.handler = skillBuilder
   .withTableName('High-Low-Game')
   .withAutoCreateTable(true)
   .lambda();
-
-// translations
-
-const enData = {
-  translation: {
-    SKILL_NAME: 'High Low Game',
-    EXIT_MESSAGE: 'Thanks for playing!',
-    FALLBACK_MESSAGE_DURING_GAME: `The High Low Game skill can't help you with that.  Try guessing a number between 0 and 100. `,
-    FALLBACK_REPROMPT_DURING_GAME: 'Please guess a number between 0 and 100.',
-    FALLBACK_MESSAGE_OUTSIDE_GAME: `The High Low Game skill can't help you with that.  It will come up with a number between 0 and 100 and you try to guess it by saying a number in that range. Would you like to play?`,
-    FALLBACK_REPROMPT_OUTSIDE_GAME: 'Say yes to start the game or no to quit.',
-    GUESS_CORRECT_MESSAGE: ' is correct! Would you like to play a new game?',
-    GUESS_CORRECT_REPROMPT: 'Say yes to start a new game, or no to end the game.',
-    LAUNCH_FIRST: 'Welcome to High Low guessing game. You have played ',
-    LAUNCH_SECOND: ' times. would you like to play?',
-    LAUNCH_REPROMPT: 'Say yes to start the game or no to quit.',
-    TOO_HIGH_MESSAGE: ' is too high.',
-    TOO_HIGH_REPROMPT: 'Try guessing a smaller number.',
-    TOO_LOW_MESSAGE: ' is too low.',
-    TOO_LOW_REPROMPT: 'Try guessing a larger number.',
-    HELP_MESSAGE: 'I am thinking of a number between zero and one hundred, try to guess it and I will tell you if it is higher or lower.',
-    HELP_REPROMPT: 'Try saying a number.',
-    ERROR_MESSAGE: 'Sorry, an error occurred.',
-    UNHANDLED_RESPONSE: 'Say yes to continue, or no to end the game.',
-    YES_MESSAGE: 'Great! Try saying a number to start the game.',
-    STOP_MESSAGE: 'Ok, see you next time!'
-  },
-};
-
-const enauData = {
-  translation: {
-    SKILL_NAME: 'Austrailian High Low Game',
-  },
-};
-
-const encaData = {
-  translation: {
-    SKILL_NAME: 'Canadian High Low Game',
-  },
-};
-
-const engbData = {
-  translation: {
-    SKILL_NAME: 'British High Low Game',
-  },
-};
-
-const eninData = {
-  translation: {
-    SKILL_NAME: 'Indian High Low Game',
-  },
-};
-
-const enusData = {
-  translation: {
-    SKILL_NAME: 'American High Low Game',
-  },
-};
-
-// constructs i18n and l10n data structure
-// translations for this sample can be found at the end of this file
-const languageStrings = {
-  'en': enData,
-  'en-AU': enauData,
-  'en-CA': encaData,
-  'en-GB': engbData,
-  'en-IN': eninData,
-  'en-US': enusData
-};
