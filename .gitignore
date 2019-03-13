@@ -1,0 +1,4 @@
+# No IDE file
+.idea
+lambda/custom/node_modules/
+coverage
