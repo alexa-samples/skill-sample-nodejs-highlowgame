@@ -280,14 +280,14 @@ exports.handler = skillBuilder
   .withPersistenceAdapter(getPersistenceAdapter(ddbTableName))
   .addRequestHandlers(
     LaunchRequest,
-    ExitHandler,
-    SessionEndedRequest,
     HelpIntent,
     YesIntent,
     NoIntent,
     NumberGuessIntent,
     FallbackHandler,
     UnhandledIntent,
+    ExitHandler,
+    SessionEndedRequest,
   )
   .addErrorHandlers(ErrorHandler)
   .lambda();
