@@ -5,7 +5,9 @@
 /* eslint-disable  func-names */
 /* eslint-disable  no-console */
 /* eslint-disable  no-restricted-syntax */
-
+const i18n = require('i18next');
+const sprintf = require('i18next-sprintf-postprocessor');
+const languageStrings = require('./languages/en.js');
 const Alexa = require('ask-sdk');
 const ddbAdapter = require('ask-sdk-dynamodb-persistence-adapter'); // included in ask-sdk
 
