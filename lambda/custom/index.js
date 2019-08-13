@@ -77,12 +77,11 @@ const HelpIntent = {
       && Alexa.getIntentName(handlerInput.requestEnvelope) === 'AMAZON.HelpIntent';
   },
   handle(handlerInput) {
-    const speechOutput = 'I am thinking of a number between zero and one hundred, try to guess it and I will tell you' +
-      ' if it is higher or lower.';
-    const reprompt = 'Try saying a number.';
+    const requestAttributes = handlerInput.attributesManager.getRequestAttributes();
+
     return handlerInput.responseBuilder
-      .speak(speechOutput)
-      .reprompt(reprompt)
+      .speak(requestAttributes.t('HELP_MESSAGE'))
+      .reprompt(requestAttributes.t('HELP_REPROMPT'))
       .getResponse();
   },
 };
