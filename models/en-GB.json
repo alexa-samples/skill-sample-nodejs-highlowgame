@@ -24,6 +24,10 @@
           "samples": []
         },
         {
+          "name": "AMAZON.FallbackIntent",
+          "samples": []
+        },
+        {
           "name": "NumberGuessIntent",
           "samples": [
             "{number}",
@@ -34,6 +38,10 @@
           "slots": [{
               "name": "number", "type": "AMAZON.NUMBER"
               }]
+        },
+        {
+            "name": "AMAZON.NavigateHomeIntent",
+            "samples": []
         }
       ]
     }

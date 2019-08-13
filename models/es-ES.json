@@ -1,7 +1,7 @@
 {
   "interactionModel": {
     "languageModel": {
-      "invocationName": "high low game",
+      "invocationName": "adivina el número",
         "intents": [
         {
           "name": "AMAZON.CancelIntent",
@@ -20,10 +20,6 @@
           "samples": []
         },
         {
-          "name": "AMAZON.FallbackIntent",
-          "samples": []
-        },
-        {
           "name": "AMAZON.NoIntent",
           "samples": []
         },
@@ -31,9 +27,11 @@
           "name": "NumberGuessIntent",
           "samples": [
             "{number}",
-            "is it {number}",
-            "how about {number}",
-            "could be {number}"
+            "es el {number}",
+            "es {number}",
+            "que hay del {number}",
+            "puede ser el {number}",
+            "dime si es el {number}"
           ],
           "slots": [{
               "name": "number", "type": "AMAZON.NUMBER"
