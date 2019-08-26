@@ -20,10 +20,6 @@
           "samples": []
         },
         {
-          "name": "AMAZON.FallbackIntent",
-          "samples": []
-        },
-        {
           "name": "AMAZON.NoIntent",
           "samples": []
         },
@@ -38,10 +34,6 @@
           "slots": [{
               "name": "number", "type": "AMAZON.NUMBER"
               }]
-        },
-        {
-            "name": "AMAZON.NavigateHomeIntent",
-            "samples": []
         }
       ]
     }
