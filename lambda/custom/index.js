@@ -12,7 +12,8 @@ const i18n = require('i18next');
 const sprintf = require('i18next-sprintf-postprocessor');
 const languageStrings = {
   'en': require('./languages/en'),
-  'es': require('./languages/es')
+  'es': require('./languages/es'),
+  'hi':require('./languages/hi')
 }
 
 const LaunchRequest = {
