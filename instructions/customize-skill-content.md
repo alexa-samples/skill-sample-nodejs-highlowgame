@@ -11,7 +11,7 @@ At this point, you should have a working copy of our Fact skill.  In order to ma
 
     1. Navigate to the **Code** tab again, and expand the project folder on the left to `Skill Code/lambda/languages`.
 
-    2. Open **[en.js](../lambda/custom/languages/en.js)**
+    2. Open **[languageStrings.js](../lambda/custom/languageStrings.js)**
 
     3. We are going to be editing a response message for the `en` locale, so we will be focusing on this entire file. For this example, I am going to be replacing the response message when a user exits the skill from "Thanks for playing" to "Thanks for playing, looking forward to playing with you again!". To do this, let's focus on `EXIT_MESSAGE`, and replace the contents:
 
