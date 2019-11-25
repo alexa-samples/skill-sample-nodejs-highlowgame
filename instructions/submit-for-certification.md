@@ -1,6 +1,8 @@
 # Build An Alexa High Low Game Skill
 <img src="https://m.media-amazon.com/images/G/01/mobile-apps/dex/alexa/alexa-skills-kit/tutorials/quiz-game/header._TTH_.png" />
 
+Build an engaging high-low game skill. Guess a number, and Alexa will tell you whether the number she has in mind is higher or lower.
+
 ## Get Your Skill Certified and Published
 
 We are almost done!  The last step is to add the metadata that your skill will use in the [Skill Store](http://amazon.com/skills).  This page will walk you through the remaining steps to launch your skill!
@@ -55,18 +57,18 @@ We are almost done!  The last step is to add the metadata that your skill will u
 
 7.  **Provide a comprehensive list of keywords for users that are searching for new skills.**  This is an optional field, and searching the [Alexa app](http://alexa.amazon.com) or the [skill store](http://www.amazon.com/skills) will also find the words in your Skill Name and descriptions, so you don't need to overdo it.  That being said, if there are words that you want users to find your skill with, you should include them here.  Separate the keywords with commas.
 
-8. **Privacy Policy URL.** This is an optional field, and should not be required for this fact skill sample.  You can leave it blank.
+8. **Privacy Policy URL.** This is an optional field, and should not be required for this high-low skill sample.  You can leave it blank.
 
 9. **Terms of Use URL.** This is also optional, and you can leave it blank.
 
 10. When you're ready, click **Save and Continue** at the bottom of the screen to move onto **Privacy & Compliance**
 
-11. *  **Does this skill allow users to make purchases or spend real money?** For this fact skill, the answer is no.  For future skills, make sure you answer this appropriately.
+11. *  **Does this skill allow users to make purchases or spend real money?** For this high-low skill, the answer is no.  For future skills, make sure you answer this appropriately.
 
-    *  **Does this Alexa skill collect users' personal information?** Again, for this fact skill, the answer is no.  If you do collect information about a user, such as names, email addresses, phone numbers, and so forth, ensure that you answer Yes to this question.
+    *  **Does this Alexa skill collect users' personal information?** Again, for this high-low skill, the answer is no.  If you do collect information about a user, such as names, email addresses, phone numbers, and so forth, ensure that you answer Yes to this question.
         *  Answering "yes" to this question will also require you to provide a link to your Privacy Policy on the previous page.
 
-    *  **Is your skill directed to children under the age of 13?** Because you customized this skill with data you provided, it is possible that you created a skill that targets children under the age of 13.  For this fact skill, the answer is **no** because it doesn't target a specific age group.
+    *  **Is your skill directed to children under the age of 13?** Because you customized this skill with data you provided, it is possible that you created a skill that targets children under the age of 13.  For this high-low skill, the answer is **no** because it doesn't target a specific age group.
         * Factors to consider in determining if this skill is directed to children under 13 include:
             * Subject matter of the skill
             * Presence of child-oriented activities and incentives
@@ -91,20 +93,20 @@ We are almost done!  The last step is to add the metadata that your skill will u
 
 	**Note:** More details on certification are [available here](https://alexa.design/certification).
 
-1. Click the **Save and Continue** button at the bottom of the page to move on to **Availability**.
+14. Click the **Save and Continue** button at the bottom of the page to move on to **Availability**.
     * You'll want to allow the Public to access the skill unless you are using [Alexa for Business](https://aws.amazon.com/a4b).
     * Beta testing is a good idea for every skill, however since this is from a template and is very basic, we'll skip that for now.  When you make your next skill, don't skip this step.  Seriously.  You won't regret it.
-    * It is recommended to allow your skill to be available in all countries and regions where Amazon distributes skills, unless you are using facts which aren't applicable to a given area.  Reasons to restrict distribution include not having intellectual property rights to distribute to that area and the content being illegal, offensive or otherwise prohibited in that area.
+    * It is recommended to allow your skill to be available in all countries and regions where Amazon distributes skills. Reasons to restrict distribution include not having intellectual property rights to distribute to that area and the content being illegal, offensive or otherwise prohibited in that area.
 
-1. If you feel that your skill is ready for certification, click the **Save and Continue** button at the bottom of the page and you'll be taken to the certification tab.
+15. If you feel that your skill is ready for certification, click the **Save and Continue** button at the bottom of the page and you'll be taken to the certification tab.
 
-1. The **Validation** page will tell you if you have missed any steps along the way which will prevent your skill from being submitted.  You shouldn't see anything on this page, but if you do, go back and fix the issues.
+16. The **Validation** page will tell you if you have missed any steps along the way which will prevent your skill from being submitted.  You shouldn't see anything on this page, but if you do, go back and fix the issues.
 
-1. Click on the **Functional test** section and click the **Run** button to run functional tests against your skill.  You shouldn't see any errors on this page, but if you do, go back and fix the issues.
+17. Click on the **Functional test** section and click the **Run** button to run functional tests against your skill.  You shouldn't see any errors on this page, but if you do, go back and fix the issues.
 
-1. Click on **Submission**, and the click **Submit for Review**.
+18. Click on **Submission**, and the click **Submit for Review**.
 
-15. **You're done with your submission!**  Here are a few things you might need to know:
+19. **You're done with your submission!**  Here are a few things you might need to know:
 
     *  **Certification can take several days to complete.** Please be patient.  It takes time because we want to get it right.
 
