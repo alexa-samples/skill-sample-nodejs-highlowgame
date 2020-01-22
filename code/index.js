@@ -8,15 +8,11 @@
 
 const Alexa = require('ask-sdk');
 const ddbAdapter = require('ask-sdk-dynamodb-persistence-adapter'); // included in ask-sdk
+const i18n = require('i18next');
+const languageStrings = require('./languages/en')
+const sprintf = require('i18next-sprintf-postprocessor');
 
-// TODO: The items below this comment need your attention.
-const SKILL_NAME = 'High Low Game';
 const ddbTableName = 'High-Low-Game';
-const FALLBACK_MESSAGE_DURING_GAME = `The ${SKILL_NAME} skill can't help you with that.  Try guessing a number between 0 and 100. `;
-const FALLBACK_REPROMPT_DURING_GAME = 'Please guess a number between 0 and 100.';
-const FALLBACK_MESSAGE_OUTSIDE_GAME = `The ${SKILL_NAME} skill can't help you with that.  It will come up with a number between 0 and 100 and you try to guess it by saying a number in that range. Would you like to play?`;
-const FALLBACK_REPROMPT_OUTSIDE_GAME = 'Say yes to start the game or no to quit.';
-
 
 const LaunchRequest = {
   canHandle(handlerInput) {
@@ -249,6 +245,7 @@ const FallbackHandler = {
   handle(handlerInput) {
     const attributesManager = handlerInput.attributesManager;
     const sessionAttributes = attributesManager.getSessionAttributes();
+    const requestAttributes = handlerInput.attributesManager.getRequestAttributes();
 
     if (sessionAttributes.gameState &&
       sessionAttributes.gameState === 'STARTED') {
@@ -271,7 +268,11 @@ const LocalizationInterceptor = {
   process(handlerInput) {
     const localizationClient = i18n.use(sprintf).init({
       lng: handlerInput.requestEnvelope.request.locale,
-      resources: languageStrings,
+      resources: {
+        en: {
+          translation: languageStrings.translation
+        }
+      }
     });
     localizationClient.localize = function localize() {
       const args = arguments;
@@ -333,3 +334,4 @@ exports.handler = skillBuilder
   .addRequestInterceptors(LocalizationInterceptor)
   .addErrorHandlers(ErrorHandler)
   .lambda();
+  
