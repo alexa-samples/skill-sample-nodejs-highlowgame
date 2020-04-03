@@ -12,6 +12,9 @@ Parameters:
     Type: String
   CodeVersion:
     Type: String
+  PersistentAttributeTableName:
+    Type: String
+    Default: High-Low-Game
 Resources:
   AlexaSkillIAMRole:
       Type: AWS::IAM::Role
@@ -48,6 +51,9 @@ Resources:
       Role: !GetAtt AlexaSkillIAMRole.Arn
       MemorySize: 512
       Timeout: 60
+      Environment:
+        Variables:
+           DYNAMODB_TABLE_NAME: !Ref PersistentAttributeTableName
   AlexaSkillFunctionEventPermission:
     Type: AWS::Lambda::Permission
     Properties:
@@ -58,6 +64,8 @@ Resources:
   AlexaPersistentAttributesTable:
     Type: AWS::DynamoDB::Table
     Properties:
+      TableName:  !Ref PersistentAttributeTableName
+      BillingMode: PROVISIONED
       AttributeDefinitions:
         -
           AttributeName: "id"
@@ -69,7 +77,6 @@ Resources:
       ProvisionedThroughput:
         ReadCapacityUnits: 5
         WriteCapacityUnits: 5
-      TableName: Guess-Number-Revolution
 Outputs:
   SkillEndpoint:
     Description: LambdaARN for the regional endpoint

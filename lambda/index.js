@@ -7,7 +7,6 @@
 /* eslint-disable  no-restricted-syntax */
 const Alexa = require('ask-sdk');
 const ddbAdapter = require('ask-sdk-dynamodb-persistence-adapter'); // included in ask-sdk
-const ddbTableName = 'High-Low-Game';
 const i18n = require('i18next');
 const sprintf = require('i18next-sprintf-postprocessor');
 const languageStrings = {
@@ -300,7 +299,7 @@ function getPersistenceAdapter(tableName) {
 const skillBuilder = Alexa.SkillBuilders.custom();
 
 exports.handler = skillBuilder
-  .withPersistenceAdapter(getPersistenceAdapter(ddbTableName))
+  .withPersistenceAdapter(getPersistenceAdapter(process.env.DYNAMODB_TABLE_NAME))
   .addRequestHandlers(
     LaunchRequest,
     ExitHandler,
