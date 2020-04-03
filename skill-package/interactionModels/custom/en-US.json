@@ -1,7 +1,7 @@
 {
   "interactionModel": {
     "languageModel": {
-      "invocationName": "high low game",
+      "invocationName": "number guess revolution",
         "intents": [
         {
           "name": "AMAZON.CancelIntent",

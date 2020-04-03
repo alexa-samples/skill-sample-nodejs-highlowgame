@@ -1,0 +1,47 @@
+{
+    "interactionModel": {
+      "languageModel": {
+        "invocationName": "adivina el número",
+          "intents": [
+          {
+            "name": "AMAZON.CancelIntent",
+            "samples": []
+          },
+          {
+            "name": "AMAZON.HelpIntent",
+            "samples": []
+          },
+          {
+            "name": "AMAZON.StopIntent",
+            "samples": []
+          },
+          {
+            "name": "AMAZON.YesIntent",
+            "samples": []
+          },
+          {
+            "name": "AMAZON.NoIntent",
+            "samples": []
+          },
+          {
+            "name": "NumberGuessIntent",
+            "samples": [
+              "{number}",
+              "es el {number}",
+              "es {number}",
+              "que hay del {number}",
+              "puede ser el {number}",
+              "dime si es el {number}"
+            ],
+            "slots": [{
+                "name": "number", "type": "AMAZON.NUMBER"
+                }]
+          },
+          {
+              "name": "AMAZON.NavigateHomeIntent",
+              "samples": []
+          }
+        ]
+      }
+    }
+  }

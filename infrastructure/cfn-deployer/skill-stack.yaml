@@ -1,0 +1,83 @@
+AWSTemplateFormatVersion: 2010-09-09
+Parameters:
+  SkillId:
+    Type: String
+  LambdaRuntime:
+    Type: String
+  LambdaHandler:
+    Type: String
+  CodeBucket:
+    Type: String
+  CodeKey:
+    Type: String
+  CodeVersion:
+    Type: String
+  PersistentAttributeTableName:
+    Type: String
+    Default: High-Low-Game
+Resources:
+  AlexaSkillIAMRole:
+      Type: AWS::IAM::Role
+      Properties:
+        AssumeRolePolicyDocument:
+          Version: 2012-10-17
+          Statement:
+            - Effect: Allow
+              Principal:
+                Service:
+                  - lambda.amazonaws.com
+              Action:
+                - sts:AssumeRole
+        Path: /
+        Policies:
+          - PolicyName: alexaSkillExecutionPolicy
+            PolicyDocument:
+              Version: 2012-10-17
+              Statement:
+                - Effect: Allow
+                  Action:
+                    - logs:*
+                    - dynamodb:*
+                  Resource: "*"
+  AlexaSkillFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      Code:
+        S3Bucket: !Ref CodeBucket
+        S3Key: !Ref CodeKey
+        S3ObjectVersion: !Ref CodeVersion
+      Handler: !Ref LambdaHandler
+      Runtime: !Ref LambdaRuntime
+      Role: !GetAtt AlexaSkillIAMRole.Arn
+      MemorySize: 512
+      Timeout: 60
+      Environment:
+        Variables:
+           DYNAMODB_TABLE_NAME: !Ref PersistentAttributeTableName
+  AlexaSkillFunctionEventPermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:invokeFunction
+      FunctionName: !GetAtt AlexaSkillFunction.Arn
+      Principal: alexa-appkit.amazon.com
+      EventSourceToken: !Ref SkillId
+  AlexaPersistentAttributesTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName:  !Ref PersistentAttributeTableName
+      BillingMode: PROVISIONED
+      AttributeDefinitions:
+        -
+          AttributeName: "id"
+          AttributeType: "S"
+      KeySchema:
+        -
+          AttributeName: "id"
+          KeyType: "HASH"
+      ProvisionedThroughput:
+        ReadCapacityUnits: 5
+        WriteCapacityUnits: 5
+Outputs:
+  SkillEndpoint:
+    Description: LambdaARN for the regional endpoint
+    Value: !GetAtt AlexaSkillFunction.Arn
