@@ -1,0 +1,49 @@
+{
+  "interactionModel": {
+    "languageModel": {
+      "invocationName": "उच्च नीच game",
+        "intents": [
+        {
+          "name": "AMAZON.CancelIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.HelpIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.StopIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.YesIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.FallbackIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.NoIntent",
+          "samples": []
+        },
+        {
+          "name": "NumberGuessIntent",
+          "samples": [
+            "{number}",
+            "क्या वह {number} हे ",
+            "क्या वह {number} हो सकता है ",
+            "{number} हो सकता है"
+          ],
+          "slots": [{
+              "name": "number", "type": "AMAZON.NUMBER"
+              }]
+        },
+        {
+            "name": "AMAZON.NavigateHomeIntent",
+            "samples": []
+        }
+      ]
+    }
+  }
+}
